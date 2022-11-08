@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-// Reads Shaka Lab Node config file and Node templates, then launches the
+// Reads Shaka Lab Node config file and node templates, then launches the
 // necessary Selenium node processes.
 
 
@@ -22,33 +22,33 @@ const fs = require('fs');
 
 // Default: linux settings
 let configPath = '/etc/shaka-lab-node-config.yaml';
-let seleniumNodePath = '/opt/shaka-lab/selenium-node';
-let workingDirectory = '/opt/shaka-lab/selenium-node';
-let updateDrivers = `${seleniumNodePath}/update-drivers.sh`;
+let shakaLabNodePath = '/opt/shaka-lab/shaka-lab-node';
+let workingDirectory = '/opt/shaka-lab/shaka-lab-node';
+let updateDrivers = `${shakaLabNodePath}/update-drivers.sh`;
 let classPathSeparator = ':';
 let exe = '';
 let cmd = '';
 
 if (process.platform == 'win32') {
-  configPath = 'c:/ProgramData/shaka-lab-node/node-config.yaml';
-  seleniumNodePath = 'c:/ProgramData/chocolatey/lib/shaka-lab-node';
+  configPath = 'c:/ProgramData/shaka-lab-node/shaka-lab-node-config.yaml';
+  shakaLabNodePath = 'c:/ProgramData/chocolatey/lib/shaka-lab-node';
   workingDirectory = 'c:/ProgramData/shaka-lab-node/';
-  updateDrivers = `${seleniumNodePath}/update-drivers.cmd`;
+  updateDrivers = `${shakaLabNodePath}/update-drivers.cmd`;
   classPathSeparator = ';';
   exe = '.exe';
   cmd = '.cmd';
 } else if (process.platform == 'darwin') {
   configPath = '/opt/homebrew/etc/shaka-lab-node-config.yaml';
-  seleniumNodePath = '/opt/homebrew/opt/shaka-lab-node';
+  shakaLabNodePath = '/opt/homebrew/opt/shaka-lab-node';
   workingDirectory = '/opt/homebrew/opt/shaka-lab-node';
-  updateDrivers = `${seleniumNodePath}/update-drivers.sh`;
+  updateDrivers = `${shakaLabNodePath}/update-drivers.sh`;
 }
 
-const templatesPath = `${seleniumNodePath}/node-templates.yaml`;
+const templatesPath = `${shakaLabNodePath}/node-templates.yaml`;
 const genericWebdriverServerJarPath =
     `${workingDirectory}/node_modules/generic-webdriver-server/GenericWebDriverProvider.jar`;
 const seleniumStandaloneJarPath =
-    `${seleniumNodePath}/selenium-server-standalone-3.141.59.jar`;
+    `${shakaLabNodePath}/selenium-server-standalone-3.141.59.jar`;
 
 const spawnOptions = {
   // Run from the package's working directory.

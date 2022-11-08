@@ -22,5 +22,5 @@ Build-Depends: debhelper (>= 9)
 Package: shaka-lab-hub
 Architecture: all
 Depends: adduser, default-jre-headless | java-runtime-headless, systemd
-Description: Shaka Lab Selenium hub for Debian or Ubuntu
- Installs a Selenium hub for Shaka Lab integration.
+Description: Shaka Lab Hub
+ A Selenium grid hub for the Shaka Lab

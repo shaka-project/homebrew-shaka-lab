@@ -28,9 +28,9 @@ export DESTDIR = $(PREFIX)/opt/shaka-lab
 
 # How "dh" helpers will install the package contents to a staging area.
 override_dh_auto_install:
-	install -m 755 -d "$(DESTDIR)/selenium-hub"
-	install -m 644 ../../selenium-jar/selenium-server-standalone-3.141.59.jar "$(DESTDIR)/selenium-hub/"
-	install -m 755 start-hub.sh "$(DESTDIR)/selenium-hub/"
+	install -m 755 -d "$(DESTDIR)/shaka-lab-hub"
+	install -m 644 ../../selenium-jar/selenium-server-standalone-3.141.59.jar "$(DESTDIR)/shaka-lab-hub/"
+	install -m 755 start-hub.sh "$(DESTDIR)/shaka-lab-hub/"
 	
 	install -m 755 -d "$(PREFIX)/lib/systemd/system"
 	install -m 644 shaka-lab-hub.service "$(PREFIX)/lib/systemd/system/"

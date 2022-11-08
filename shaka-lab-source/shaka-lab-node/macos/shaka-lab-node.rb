@@ -12,18 +12,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# macOS Homebrew package definition for for Shaka Lab Selenium nodes.
+# macOS Homebrew package definition for for Shaka Lab Node.
 
 # Homebrew docs: https://docs.brew.sh/Formula-Cookbook
 #                https://rubydoc.brew.sh/Formula
 
 class ShakaLabNode < Formula
-  desc "Shaka Lab Selenium nodes"
+  desc "Shaka Lab Node - Selenium grid nodes for the Shaka Lab"
   homepage "https://github.com/shaka-project/shaka-lab"
+  license "Apache-2.0"
+
+  # Formulae require a URL, but we don't actually have sources to download in
+  # this way.  Instead, our tap repo includes the sources.  To satisfy
+  # Homebrew, give a URL that never changes and returns no data.
   url "http://www.gstatic.com/generate_204"
   version "1.0.0"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-  license "Apache-2.0"
 
   # Use --with-java to have Homebrew install Java from source.
   # Skip that if you already have Oracle Java installed.
@@ -38,10 +42,11 @@ class ShakaLabNode < Formula
   depends_on "node" => "12"
 
   def install
-    # Detect our environment.  If we're building from the source repo, we need
-    # a different root directory than if this is installed as a tap.  Tap repos
-    # have a very specific structure and naming scheme which differs from the
-    # layout of our multi-platform source repo.
+    # Detect our environment.  If we're building from the source repo (with
+    # `brew install ./shaka-lab-node.rb`, we need a different root directory
+    # than if this is installed as a tap.  Tap repos have a very specific
+    # structure and naming scheme which differs from the layout of our
+    # multi-platform source repo.
 
     # Assume we're installed as a tap.
     # The full source from this version is at this location in the tap repo.
@@ -94,8 +99,10 @@ class ShakaLabNode < Formula
   # own.  This gets printed before the message we can't control.
   def caveats
     <<~EOS
+      ******* ATTENTION *******
       Please run #{opt_prefix}/restart-services.sh
       This can't be done for you because of sandboxing.
+      ******* ********* *******
 
       Also, please ignore the mention of "brew services" below.
       Our services don't fit homebrew's expectations,

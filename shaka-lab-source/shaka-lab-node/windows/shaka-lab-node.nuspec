@@ -33,8 +33,8 @@
     <licenseUrl>https://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <tags>shaka-lab-node shaka-lab</tags>
-    <summary>Shaka Lab Selenium node for Windows</summary>
-    <description>Installs Selenium nodes for Shaka Lab integration.</description>
+    <summary>Shaka Lab Node</summary>
+    <description>Selenium grid nodes for the Shaka Lab</description>
 
     <dependencies>
       <dependency id="nodejs" version="12.0" />

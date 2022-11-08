@@ -12,8 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Debian Package control file for Shaka Lab Selenium nodes.
-
 Source: shaka-lab-node
 Maintainer: Joey Parrish <joeyparrish@google.com>
 Section: misc
@@ -25,5 +23,5 @@ Package: shaka-lab-node
 Architecture: all
 Depends: adduser, curl, default-jre-headless | java-runtime-headless, systemd, xvfb
 Suggests: adb, docker.io
-Description: Shaka Lab Selenium node for Debian or Ubuntu
- Installs Selenium nodes for Shaka Lab integration.
+Description: Shaka Lab Node
+ Selenium grid nodes for the Shaka Lab

@@ -22,7 +22,4 @@ export NVM_DIR=/opt/shaka-lab/nvm
 . "$NVM_DIR/nvm.sh"
 
 # Launch Selenium nodes in a headless X session.
-xvfb-run -a node /opt/shaka-lab/selenium-node/start-nodes.js
-
-# TODO: Can this be configured to wait for a login and run the nodes in the
-# main X session instead?  That way, test runs can be seen.
+xvfb-run -a node /opt/shaka-lab/shaka-lab-node/start-nodes.js

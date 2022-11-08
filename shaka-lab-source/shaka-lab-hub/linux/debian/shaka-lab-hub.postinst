@@ -24,7 +24,7 @@ adduser \
   --quiet \
   --system \
   shaka-lab-hub \
-  --home /opt/shaka-lab/selenium-hub \
+  --home /opt/shaka-lab/shaka-lab-hub \
   --no-create-home
 
 # Enable and start the service.

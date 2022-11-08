@@ -14,7 +14,7 @@
 
 # Shaka Lab Node Config
 
-# The Selenium Hub to connect to.  Customize this to your local grid.
+# The Selenium hub to connect to.  Customize this to your local grid.
 # If you install shaka-lab-hub with a default config on the same machine,
 # this will be correct.
 hub: http://127.0.0.1:4444/
@@ -25,6 +25,7 @@ hub: http://127.0.0.1:4444/
 #host: 192.168.1.55
 
 # The Selenium nodes to create.  Customize this to your lab devices.
+# Any regular browser you enable will have to be installed separately.
 nodes:
   - template: chrome
 

@@ -14,13 +14,15 @@
 
 # Node service definition for the tool WinSW: https://github.com/winsw/winsw
 
-# NOTE that the upstream documentation for winsw are mistaken.  They use
+# NOTE that we are using WinSW v2, not v3, which uses XML configs only.
+
+# NOTE also that the upstream documentation for winsw is mistaken.  They use
 # lowercase, but camelcase is required.
 # https://github.com/winsw/winsw/issues/839
 
 id: shaka-lab-node
-name: Shaka Lab Selenium Nodes
-description: Starts configured Selenium nodes for the Shaka Lab.
+name: Shaka Lab Node
+description: Selenium grid nodes for the Shaka Lab
 executable: C:\Program Files\nodejs\node.exe
 arguments: C:\ProgramData\chocolatey\lib\shaka-lab-node\start-nodes.js
 workingDirectory: C:\ProgramData\shaka-lab-node\

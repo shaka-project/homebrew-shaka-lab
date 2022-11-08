@@ -26,5 +26,5 @@ if [[ "$action" != "upgrade" ]]; then
   # versions, node modules, webdrivers) that aren't tracked by apt.
   # DO NOT remove them on upgrade!
   rm -rf /opt/shaka-lab/nvm
-  rm -rf /opt/shaka-lab/selenium-node
+  rm -rf /opt/shaka-lab/shaka-lab-node
 fi

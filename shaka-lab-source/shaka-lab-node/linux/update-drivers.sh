@@ -32,7 +32,7 @@ export NVM_DIR=/opt/shaka-lab/nvm
 . "$NVM_DIR/nvm.sh"
 
 # Go to the install directory of shaka-lab-node.
-cd /opt/shaka-lab/selenium-node
+cd /opt/shaka-lab/shaka-lab-node
 
 # Update all modules.
 rm -f package-lock.json

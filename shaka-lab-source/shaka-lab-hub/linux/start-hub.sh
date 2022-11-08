@@ -19,7 +19,7 @@ HOST=0.0.0.0
 
 [ -r /etc/default/shaka-lab-hub ] && . /etc/default/shaka-lab-hub
 
-cd /opt/shaka-lab/selenium-hub
+cd /opt/shaka-lab/shaka-lab-hub
 
 java \
   -jar selenium-server-standalone-3.141.59.jar \

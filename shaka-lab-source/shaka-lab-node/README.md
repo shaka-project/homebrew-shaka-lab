@@ -1,9 +1,12 @@
-# Selenium Node
+# Shaka Lab Node
 
-The Selenium Node package is available for Linux, Windows, and macOS.
+The Shaka Lab Node package provides Selenium grid nodes, and is available for
+[Linux](#linux), [Windows](#windows), and [macOS](#macos).
 
 
 ## Linux
+
+NOTE: Browsers running in a Linux node **will not** be visible.
 
 Installation:
 
@@ -48,6 +51,8 @@ sudo apt remove shaka-lab-node
 
 ## Windows
 
+NOTE: Browsers running in a Windows node **will not** be visible.
+
 Pre-requisites:
 
  - Get Chocolatey: [https://docs.chocolatey.org/en-us/choco/setup](https://docs.chocolatey.org/en-us/choco/setup)
@@ -91,6 +96,8 @@ choco uninstall -y shaka-lab-node
 
 
 ## macOS
+
+NOTE: Browsers running in a macOS node **will** be visible.
 
 Pre-requisites:
 

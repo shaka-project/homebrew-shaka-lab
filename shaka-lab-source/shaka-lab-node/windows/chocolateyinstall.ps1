@@ -36,7 +36,7 @@ if ($service) {
 if (-not(Test-Path -Path $runtimeFolder)) {
   New-Item -ItemType "directory" -Path $runtimeFolder
 }
-$nodeConfigPath = $runtimeFolder + "\node-config.yaml"
+$nodeConfigPath = $runtimeFolder + "\shaka-lab-node-config.yaml"
 $defaultConfig = "$installFolder\default-node-config.yaml"
 if (-not(Test-Path -Path $nodeConfigPath)) {
   echo "Installing default config to $nodeConfigPath"

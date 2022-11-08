@@ -1,6 +1,7 @@
-# Selenium Hub
+# Shaka Lab Hub
 
-The Selenium Hub package is available for **Linux only**.
+The Shaka Lab Hub package provides a Selenium grid hub, and is available for
+**Linux only**.
 
 
 Installation:

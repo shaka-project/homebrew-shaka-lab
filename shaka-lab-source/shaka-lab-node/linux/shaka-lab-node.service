@@ -15,14 +15,14 @@
 # Shaka Lab Node service definition for systemd.
 
 [Unit]
-Description=Shaka Lab Selenium Nodes
+Description=Shaka Lab Node
 Wants=network-online.target
 After=network-online.target
 
 [Service]
 Type=simple
 User=shaka-lab-node
-ExecStart=/opt/shaka-lab/selenium-node/start-nodes.sh
+ExecStart=/opt/shaka-lab/shaka-lab-node/start-nodes.sh
 Restart=always
 
 [Install]
