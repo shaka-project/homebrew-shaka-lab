@@ -15,6 +15,7 @@
 # limitations under the License.
 
 PORT=4444
+HOST=0.0.0.0
 
 [ -r /etc/default/shaka-lab-hub ] && . /etc/default/shaka-lab-hub
 
@@ -23,6 +24,7 @@ cd /opt/shaka-lab/selenium-hub
 java \
   -jar selenium-server-standalone-3.141.59.jar \
   -role hub \
+  -host "$HOST" \
   -port "$PORT" \
   -throwOnCapabilityNotPresent true \
   -maxSession 1 \

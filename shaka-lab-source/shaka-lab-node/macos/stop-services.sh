@@ -1,3 +1,4 @@
+#!/bin/bash
 # Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,10 +13,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# This is a configuration file for shaka-lab-hub.
-
-# The port number to listen on, which defaults to 4444.
-#PORT=4444
-
-# The IP or hostname to listen on, which defaults to 0.0.0.0 (all IPs).
-#HOST=0.0.0.0
+launchctl stop shaka-lab-node-update
+launchctl stop shaka-lab-node-service

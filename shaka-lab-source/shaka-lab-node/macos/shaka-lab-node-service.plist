@@ -24,6 +24,13 @@
 
     <key>ProgramArguments</key>
     <array>
+      <!-- The log wrapper works around issues with log rotation / launchd. -->
+      <string>/opt/homebrew/bin/node</string>
+      <string>/opt/homebrew/opt/shaka-lab-node/log-wrapper.js</string>
+      <string>/opt/homebrew/var/log/shaka-lab-node.out.log</string>
+      <string>/opt/homebrew/var/log/shaka-lab-node.err.log</string>
+      <string>/opt/homebrew/var/run/shaka-lab-node.pid</string>
+      <!-- This is the service started by the wrapper. -->
       <string>/opt/homebrew/bin/node</string>
       <string>/opt/homebrew/opt/shaka-lab-node/start-nodes.js</string>
     </array>
@@ -34,14 +41,12 @@
     <key>RunAtLoad</key>
     <true/>
 
-    <key>StandardErrorPath</key>
-    <string>/opt/homebrew/var/log/shaka-lab-node.err.log</string>
-
-    <key>StandardOutPath</key>
-    <string>/opt/homebrew/var/log/shaka-lab-node.out.log</string>
-
     <key>KeepAlive</key>
-    <true/>
+    <dict>
+      <key>SuccessfulExit</key>
+      <false/>
+    </dict>
+
     <key>TimeOut</key>
     <integer>30</integer>
   </dict>

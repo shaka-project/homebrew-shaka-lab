@@ -101,12 +101,14 @@ Installation:
 ```sh
 brew tap shaka-project/shaka-lab
 brew install shaka-lab-node
+/opt/homebrew/opt/shaka-lab-node/restart-services.sh
 ```
 
 Updates:
 
 ```sh
 brew update && brew upgrade
+/opt/homebrew/opt/shaka-lab-node/restart-services.sh
 ```
 
 Configuration:
@@ -129,6 +131,7 @@ tail -f /opt/homebrew/var/log/shaka-lab-node.err.log
 Uninstallation:
 
 ```sh
+/opt/homebrew/opt/shaka-lab-node/stop-services.sh
 brew uninstall shaka-lab-node
 ```
 

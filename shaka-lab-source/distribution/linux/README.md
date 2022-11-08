@@ -2,8 +2,8 @@
 
 Packages will be built in GitHub Actions and served via GitHub Pages in a
 [Debian Repository format](https://wiki.debian.org/DebianRepository).
-The GitHub Pages deployment will allow users to use `add-apt-repository` and
-receive automatic updates to their Linux packages.
+The GitHub Pages deployment will allow users to add an `apt` source and receive
+automatic updates to their Linux packages.
 
 
 ## Setup for maintainers

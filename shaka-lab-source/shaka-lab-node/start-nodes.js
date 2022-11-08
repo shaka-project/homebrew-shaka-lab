@@ -225,13 +225,23 @@ function main() {
 
     child.once('error', () => {
       stopAllProcesses(processes);
+      process.exit(1);
     });
     child.once('exit', () => {
       stopAllProcesses(processes);
+      process.exit(1);
     });
 
     processes.push(child);
   }
+
+  // If shut down politely, exit with code 0.
+  // This is important, as it will not trigger a restart on macOS.
+  // Without this, there is no way to shut down a service on macOS explicitly
+  // without the keepAlive setting starting it again.
+  process.once('SIGTERM', () => {
+    process.exit(0);
+  });
 
   // Add an explicit handler to kill all processes when _this_ process stops.
   // This seems to help with service shut down on Windows, which would

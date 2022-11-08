@@ -21,7 +21,7 @@ class ShakaLabNode < Formula
   desc "Shaka Lab Selenium nodes"
   homepage "https://github.com/shaka-project/shaka-lab"
   url "http://www.gstatic.com/generate_204"
-  version "20221105.045334"
+  version "20221108.002204"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   license "Apache-2.0"
 
@@ -62,7 +62,8 @@ class ShakaLabNode < Formula
     FileUtils.install "#{source_root}/selenium-jar/selenium-server-standalone-3.141.59.jar", prefix, :mode => 0644
     FileUtils.install "#{source_root}/shaka-lab-node/node-templates.yaml", prefix, :mode => 0644
     FileUtils.install "#{source_root}/shaka-lab-node/package.json", prefix, :mode => 0644
-    FileUtils.install "#{source_root}/shaka-lab-node/start-nodes.js", prefix, :mode => 0755
+    FileUtils.install "#{source_root}/shaka-lab-node/start-nodes.js", prefix, :mode => 0644
+    FileUtils.install "#{source_root}/shaka-lab-node/macos/log-wrapper.js", prefix, :mode => 0644
     FileUtils.install "#{source_root}/shaka-lab-node/macos/update-drivers.sh", prefix, :mode => 0755
 
     # Config file goes in /opt/homebrew/etc.  Don't overwrite it!
@@ -73,10 +74,14 @@ class ShakaLabNode < Formula
     # Service definitions.
     FileUtils.install "#{source_root}/shaka-lab-node/macos/shaka-lab-node-service.plist", prefix, :mode => 0644
     FileUtils.install "#{source_root}/shaka-lab-node/macos/shaka-lab-node-update.plist", prefix, :mode => 0644
+    FileUtils.install "#{source_root}/shaka-lab-node/macos/stop-services.sh", prefix, :mode => 0755
     FileUtils.install "#{source_root}/shaka-lab-node/macos/restart-services.sh", prefix, :mode => 0755
 
     # Service logs go to /opt/homebrew/var/log
     FileUtils.mkdir_p var/"log"
+
+    # Service PID file goes to /opt/homebrew/var/run
+    FileUtils.mkdir_p var/"run"
   end
 
   # When Homebrew sees that we have installed plist files, it will issue a
