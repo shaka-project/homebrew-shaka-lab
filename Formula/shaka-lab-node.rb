@@ -26,7 +26,7 @@ class ShakaLabNode < Formula
   # this way.  Instead, our tap repo includes the sources.  To satisfy
   # Homebrew, give a URL that never changes and returns no data.
   url "http://www.gstatic.com/generate_204"
-  version "20221108.034642"
+  version "20221129.231249"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
 
   # Use --with-java to have Homebrew install Java from source.

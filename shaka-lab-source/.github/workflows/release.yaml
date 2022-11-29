@@ -212,4 +212,3 @@ jobs:
           # user.
           git config --unset-all http.https://github.com/.extraheader
           git push https://shaka-bot:${{ secrets.HOMEBREW_DEPLOY_TOKEN }}@github.com/shaka-project/homebrew-shaka-lab
-

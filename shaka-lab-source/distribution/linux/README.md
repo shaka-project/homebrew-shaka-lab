@@ -20,4 +20,5 @@ automatic updates to their Linux packages.
 3. Copy the base64 `key` into GitHub as a repository secret named `DEB_GPG_KEY`
 4. Remove the exported secret key file with `rm key`
 
-The `release.yaml` workflow will use the stored GPG key to sign packages.
+The `release.yaml` workflow will use the stored GPG key to sign packages, which
+will be distributed through GitHub Pages (`github.io`) on this repository.

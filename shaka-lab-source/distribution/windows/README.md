@@ -11,9 +11,10 @@ update with `choco upgrade`.
 
 ## Setup for maintainers
 
-1. Create a service account key in Google Cloud.
-2. Copy the key in JSON format to GitHub as a repository secret named
+1. Create an App Engine project in Google Cloud.
+2. Create a service account key in Google Cloud.
+3. Copy the key in JSON format to GitHub as a repository secret named
    `APPENGINE_DEPLOY_KEY`.
 
 The `release.yaml` workflow will use the stored key to deploy updates to App
-Engine.
+Engine, which will serve the packages.

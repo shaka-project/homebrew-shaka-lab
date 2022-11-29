@@ -4,7 +4,7 @@ The Shaka Lab Hub package provides a Selenium grid hub, and is available for
 **Linux only**.
 
 
-Installation:
+## Installation
 
 ```sh
 curl -L https://shaka-project.github.io/shaka-lab/public.key | \
@@ -15,13 +15,13 @@ sudo apt update
 sudo apt -y install shaka-lab-hub
 ```
 
-Updates:
+## Updates
 
 ```sh
 sudo apt update && sudo apt -y upgrade
 ```
 
-Configuration:
+## Configuration
 
 `/etc/default/shaka-lab-hub` contains two settings: `PORT` and `HOST`.
 If you wish to run the Selenium grid hub on a specific port, uncomment and
@@ -40,14 +40,20 @@ If you wish to listen on a specific IP or hostname, uncomment and change the
 #HOST=0.0.0.0
 ```
 
-Restarting the service after editing the config:
+## Restarting the service after editing the config
 
 ```sh
 sudo systemctl restart shaka-lab-hub
 ```
 
-Viewing logs:
+## Tailing logs
 
 ```sh
-journalctl --no-hostname -u shaka-lab-hub
+journalctl --no-hostname -u shaka-lab-hub --follow
+```
+
+## Uninstallation
+
+```sh
+sudo apt remove -y shaka-lab-hub
 ```

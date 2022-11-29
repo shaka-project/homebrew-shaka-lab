@@ -13,9 +13,11 @@
  * limitations under the License.
  */
 
-// Reads Shaka Lab Node config file and node templates, then launches the
-// necessary Selenium node processes.
-
+/**
+ * @fileoverview
+ * Reads Shaka Lab Node config file and node templates, then launches the
+ * necessary Selenium node processes.
+ */
 
 const child_process = require('child_process');
 const fs = require('fs');
@@ -44,12 +46,14 @@ if (process.platform == 'win32') {
   updateDrivers = `${shakaLabNodePath}/update-drivers.sh`;
 }
 
+// Paths derived from the OS-specific ones above.
 const templatesPath = `${shakaLabNodePath}/node-templates.yaml`;
 const genericWebdriverServerJarPath =
     `${workingDirectory}/node_modules/generic-webdriver-server/GenericWebDriverProvider.jar`;
 const seleniumStandaloneJarPath =
     `${shakaLabNodePath}/selenium-server-standalone-3.141.59.jar`;
 
+// Common, repeated options for child_process.spawn().
 const spawnOptions = {
   // Run from the package's working directory.
   cwd: workingDirectory,
@@ -59,6 +63,15 @@ const spawnOptions = {
   detached: false,
 };
 
+/**
+ * Access a required field from config, and validate its presence.
+ *
+ * @param {Object<string, *>} config
+ * @param {string} path Path to the config file
+ * @param {string} field The required field name
+ * @param {string} prefix A prefix for the field name, a path to a nested field
+ * @return {*}
+ */
 function requiredField(config, path, field, prefix='') {
   if (!config || !(field in config)) {
     console.error(`Missing required field "${prefix}${field}" in ${path}`);
@@ -67,7 +80,14 @@ function requiredField(config, path, field, prefix='') {
   return config[field];
 }
 
-function loadTemplate(templates, templateName) {
+/**
+ * Get a config template, and validate its presence.
+ *
+ * @param {Array<Object>} templates
+ * @param {string} templateName
+ * @return {Object}
+ */
+function getTemplate(templates, templateName) {
   if (!(templateName in templates)) {
     console.error(
         `Unknown template "${templateName}" in ${configPath},` +
@@ -78,6 +98,14 @@ function loadTemplate(templates, templateName) {
   return templates[templateName];
 }
 
+/**
+ * Access a required param from a node config, and validate its presence.
+ *
+ * @param {Object} nodeConfig
+ * @param {string} templateName
+ * @param {string} paramName
+ * @return {string}
+ */
 function requiredParam(nodeConfig, templateName, paramName) {
   if (!nodeConfig.params || !(paramName in nodeConfig.params)) {
     console.error(
@@ -89,6 +117,13 @@ function requiredParam(nodeConfig, templateName, paramName) {
   return nodeConfig.params[paramName];
 }
 
+/**
+ * Access an optional param from a node config, or return a blank default.
+ *
+ * @param {Object} nodeConfig
+ * @param {string} paramName
+ * @return {string}
+ */
 function optionalParam(nodeConfig, paramName) {
   if (nodeConfig.params && paramName in nodeConfig.params) {
     return nodeConfig.params[paramName];
@@ -96,6 +131,13 @@ function optionalParam(nodeConfig, paramName) {
   return '';
 }
 
+/**
+ * Substitute parameters (such as "$exe") into a config's string value.
+ *
+ * @param {string} string
+ * @param {Object<string, string>} params
+ * @return {string}
+ */
 function substituteParams(string, params) {
   // Don't touch non-strings.
   if (typeof string != 'string') {
@@ -110,6 +152,11 @@ function substituteParams(string, params) {
   return string;
 }
 
+/**
+ * Stop all child processes.
+ *
+ * @param {Array<ChildProcess>} processes
+ */
 function stopAllProcesses(processes) {
   for (const child of processes) {
     if (child.exitCode == null) {
@@ -119,6 +166,12 @@ function stopAllProcesses(processes) {
   }
 }
 
+/**
+ * Read configs and templates, and start Selenium nodes as child processes.
+ * This parent process will monitor the child processes, and shut them all down
+ * if one fails.  The background service system of the OS will log this and
+ * restart this parent process as needed.
+ */
 function main() {
   // Update WebDrivers on startup.
   // This has a side-effect of also installing other requirements, such as
@@ -139,7 +192,7 @@ function main() {
   for (const nodeConfig of nodeConfigs) {
     const templateName = requiredField(
         nodeConfig, configPath, 'template', 'nodes[].');
-    const template = loadTemplate(templates, templateName);
+    const template = getTemplate(templates, templateName);
 
     // Prepare template parameters.
     const params = {};
