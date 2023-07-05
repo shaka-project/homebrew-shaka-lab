@@ -23,5 +23,6 @@ Package: shaka-lab-node
 Architecture: all
 Depends: adduser, curl, default-jre-headless | java-runtime-headless, systemd, xvfb
 Suggests: adb, docker.io
+Recommends: shaka-lab-browsers
 Description: Shaka Lab Node
  Selenium grid nodes for the Shaka Lab
