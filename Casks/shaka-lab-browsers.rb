@@ -26,13 +26,18 @@ cask "shaka-lab-browsers" do
   # this way.  Instead, our tap repo includes the sources.  To satisfy
   # Homebrew, give a URL that never changes and returns no data.
   url "http://www.gstatic.com/generate_204"
-  version "20230721.214145"
+  version "20230725.014608"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
 
   # We don't install anything.  We only depend on other casks.
   stage_only true
 
-  postflight do
+  # Signal that this package does not need upgrading through "brew upgrade".
+  auto_updates true
+
+  # Use preflight so that if the commands fail, the package is not considered
+  # installed.
+  preflight do
     # Enable the "develop" menu for Safari
     system_command "/usr/bin/defaults", args: [
       "write", "com.apple.Safari.SandboxBroker", "ShowDevelopMenu",
@@ -72,6 +77,16 @@ cask "shaka-lab-browsers" do
       puts "*** NOTE: Safari Technology Preview could not be installed. ***"
       puts "*** Safari TP install requires the latest version of macOS. ***"
     end
+  end
+
+  postflight do
+    # Take Firefox out of quarantine.  I'm not sure why this is only needed for
+    # Firefox and not Chrome or Edge.  Without this, the first time
+    # shaka-lab-node tries to start Firefox, a dialog box pops up from the OS
+    # and must be interacted with before tests can run for the first time.
+    system_command "/usr/bin/xattr", args: [
+      "-d", "com.apple.quarantine", "/Applications/Firefox.app",
+    ]
   end
 
   depends_on cask: "firefox"
