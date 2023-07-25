@@ -26,7 +26,7 @@ cask "shaka-lab-browsers" do
   # this way.  Instead, our tap repo includes the sources.  To satisfy
   # Homebrew, give a URL that never changes and returns no data.
   url "http://www.gstatic.com/generate_204"
-  version "20230725.014608"
+  version "20230725.154559"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
 
   # We don't install anything.  We only depend on other casks.
@@ -80,12 +80,19 @@ cask "shaka-lab-browsers" do
   end
 
   postflight do
-    # Take Firefox out of quarantine.  I'm not sure why this is only needed for
-    # Firefox and not Chrome or Edge.  Without this, the first time
-    # shaka-lab-node tries to start Firefox, a dialog box pops up from the OS
-    # and must be interacted with before tests can run for the first time.
+    # Take all browsers out of quarantine.  This has been found necessary for
+    # Firefox and Chrome at least in some cases.
+    # Without this, the first time shaka-lab-node tries to start a browers, a
+    # dialog box may pop up from the OS and must be interacted with before
+    # tests can run for the first time.
     system_command "/usr/bin/xattr", args: [
       "-d", "com.apple.quarantine", "/Applications/Firefox.app",
+    ]
+    system_command "/usr/bin/xattr", args: [
+      "-d", "com.apple.quarantine", "/Applications/Google Chrome.app",
+    ]
+    system_command "/usr/bin/xattr", args: [
+      "-d", "com.apple.quarantine", "/Applications/Microsoft Edge.app",
     ]
   end
 
