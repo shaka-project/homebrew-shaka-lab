@@ -26,7 +26,7 @@ cask "shaka-lab-gateway-client" do
   # this way.  Instead, our tap repo includes the sources.  To satisfy
   # Homebrew, give a URL that never changes and returns no data.
   url "http://www.gstatic.com/generate_204"
-  version "20240920.232208"
+  version "20241010.144503"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
 
   # We don't install anything.  We only invoke OS tools to configure AD login.
