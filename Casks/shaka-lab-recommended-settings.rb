@@ -32,7 +32,7 @@ cask "shaka-lab-recommended-settings" do
 
   # This is the version of shaka-lab-recommended-settings itself, not the
   # kcpassword source above.
-  version "20260603.170122"
+  version "20260708.194512"
 
   binary "kcpassword-1.1.0/kcpassword"
 
