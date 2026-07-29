@@ -26,7 +26,7 @@ cask "shaka-lab-node" do
   # this way.  Instead, our tap repo includes the sources.  To satisfy
   # Homebrew, give a URL that never changes and returns no data.
   url "http://www.gstatic.com/generate_204"
-  version "20260708.194512"
+  version "20260729.053049"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
 
   # Casks can't have optional dependencies, so note to the user that Tizen can
@@ -37,7 +37,7 @@ cask "shaka-lab-node" do
   # NOTE: We can't express a specific version in a Cask's dependencies.
   depends_on cask: "oracle-jdk"
 
-  # We need node.js, at least v12.
+  # We need node.js, any LTS.
   # NOTE: We can't express a specific version in a Cask's dependencies.
   depends_on formula: "node"
 
