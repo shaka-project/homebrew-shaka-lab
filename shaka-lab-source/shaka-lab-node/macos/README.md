@@ -44,11 +44,17 @@ See the [configuration section](../README.md#configuration) of the general doc.
 sudo /opt/shaka-lab-node/restart-services.sh
 ```
 
+Any admin can run this, including over SSH.  The services always run as the
+user logged in on the GUI.
+
 ## Tailing logs
 
 ```sh
 tail -f /opt/shaka-lab-node/logs/stderr.log
 ```
+
+The loopback proxy (see [local-network-privacy.md](local-network-privacy.md))
+runs as root and logs to `/var/log/shaka-lab-node/local-network-proxy.log`.
 
 ## Uninstallation
 

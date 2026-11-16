@@ -29,59 +29,31 @@ cask "shaka-lab-gateway-client" do
   version "1.0.0"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
 
-  # We don't install anything.  We only invoke OS tools to configure AD login.
+  # Tell homebrew that we won't "install" anything.  We do, just not using the
+  # primitives for Casks, which are oriented around app bundles.
   stage_only true
 
   # Signal that this package does not need upgrading through "brew upgrade".
   auto_updates true
 
-  # Use preflight so that if the commands fail, the package is not considered
-  # installed.
-  preflight do
-    # Commands to join the domain will fail if we're already in it, so check.
-    domain = `dsconfigad -show | awk '/Active Directory Domain/{print $NF}'`.strip
-    puts "Current domain = \"#{domain}\""
+  # The path from the Cask definition to the full shaka-lab source.
+  # We install files from there.
+  source_root = "#{__dir__}/../shaka-lab-source"
 
-    if domain == "lab.shaka"
-      puts "Already a member of the Shaka Lab domain."
-    else
-      # Perform a one-time time sync, since this is critical for joining AD.
-      # In contrast, shaka-lab-recommended-settings will set ongoing time sync.
-      system_command "/usr/bin/sntp", args: [
-        "-sS", "time.apple.com",
-      ], sudo: true
-
-      puts "Joining Shaka Lab domain via Shaka Lab Gateway."
-      puts "When prompted for \"Password\", enter your own password for sudo."
-      puts "When prompted for \"Administrator's Password\", enter your Active Directory Administrator password."
-
-      system_command "/usr/sbin/dsconfigad", args: [
-        "-domain", "lab.shaka",
-        "-u", "Administrator",
-      ], sudo: true
-
-      puts "Successfully joined the Shaka Lab domain!"
-    end
+  # The real work happens in install.sh and uninstall.sh, run as root.
+  # If they fail, the package is not considered installed or uninstalled.
+  preflight_steps do
+    run "#{source_root}/shaka-lab-gateway-client/macos/install.sh",
+        args: [source_root], sudo: true, print_stdout: true
   end
 
-  uninstall_preflight do
-    # Commands to leave the domain will fail if we're not in it, so check.
-    domain = `dsconfigad -show | awk '/Active Directory Domain/{print $NF}'`.strip
-    puts "Current domain = \"#{domain}\""
-
-    if domain == "lab.shaka"
-      puts "Leaving the Shaka Lab domain via Shaka Lab Gateway."
-      puts "When prompted for \"Password\", enter your own password for sudo."
-      puts "When prompted for \"Administrator's Password\", enter your Active Directory Administrator password."
-
-      system_command "/usr/sbin/dsconfigad", args: [
-        "-remove",
-        "-u", "Administrator",
-      ], sudo: true
-
-      puts "Successfully left the Shaka Lab domain."
-    else
-      puts "Already left the Shaka Lab domain."
+  # install.sh puts uninstall.sh outside of the tap, because Homebrew
+  # uninstalls from its own saved copy of this Cask, which can't find files in
+  # the tap.
+  uninstall_preflight_steps do
+    if_path_exists "/opt/shaka-lab-gateway-client/uninstall.sh" do
+      run "/opt/shaka-lab-gateway-client/uninstall.sh",
+          sudo: true, print_stdout: true
     end
   end
 end

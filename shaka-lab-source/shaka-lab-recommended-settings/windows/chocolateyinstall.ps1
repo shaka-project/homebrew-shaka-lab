@@ -35,14 +35,16 @@ New-ItemProperty `
   -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell `
   -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" `
   -PropertyType String -Force | Out-Null
-#  - Disable SSH keys shared across all admin accounts
-if (-Not (Test-Path c:\ProgramData\ssh\sshd_config.orig)) {
-  cp c:\ProgramData\ssh\sshd_config c:\ProgramData\ssh\sshd_config.orig
-}
-cp c:\ProgramData\ssh\sshd_config c:\ProgramData\ssh\sshd_config.bk
-cat c:\ProgramData\ssh\sshd_config.bk | `
-    ? {-Not $_.Contains("administrators_authorized_keys")} | `
-    Set-Content c:\ProgramData\ssh\sshd_config
+
+
+echo "`nEnabling time sync...`n"
+# Domain members normally sync time from a domain controller, but the Shaka Lab
+# Gateway doesn't serve time.  Always sync from a public time server instead,
+# whether or not this machine is in a domain.  The 0x8 flag means an ordinary
+# NTP client, using the normal polling interval.
+Set-Service -Name w32time -StartupType Automatic
+Start-Service -Name w32time
+w32tm /config /manualpeerlist:"time.windows.com,0x8" /syncfromflags:manual /update
 
 
 echo "`nEnabling Remote Desktop connections`n"
@@ -74,6 +76,22 @@ if (-Not (cat c:\tools\vim\_vimrc | Select-String nobackup -Quiet)) {
   Add-Content "c:\tools\vim\_vimrc" "`r`nset nobackup`r`nset noundofile`r`n"
 }
 
+# This step also appends, so skip it if the settings are already there.
+if (-Not (cat c:\tools\vim\_vimrc | Select-String "Char-0x7f" -SimpleMatch -Quiet)) {
+  echo "`nConfiguring vim for SSH sessions`n"
+  Add-Content "c:\tools\vim\_vimrc" @(
+    "",
+    "`" Over SSH, Backspace arrives as a literal DEL (0x7F).  Treat it as Backspace.",
+    "if has('win32') && !has('gui_running')",
+    "  noremap! <Char-0x7f> <BS>",
+    "  nnoremap <Char-0x7f> <BS>",
+    "endif",
+    "",
+    "`" Keep vim from clearing the screen on exit.",
+    "set t_ti= t_te="
+  )
+}
+
 
 echo "`nConfiguring Windows Update...`n"
 #  - No updates between midnight at 6pm local
@@ -86,17 +104,27 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Nam
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name RestartNotificationsAllowed2 -Value 0
 
 
-echo "`nInstalling all Windows and driver updates now...`n"
-Install-PackageProvider -Name NuGet -Scope CurrentUser -Force | Out-Null
-Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process -Force
-Install-Module PSWindowsUpdate -Scope CurrentUser
+echo "`nAdding the shaka-lab-windows-update command...`n"
+# Admins can run "shaka-lab-windows-update" at any time, including over SSH,
+# to install Windows updates.  This puts a shim on the PATH that runs the
+# script with PowerShell.  Install-BinFile passes -Command to the shim
+# generator without quoting it, so the value has to include its own quotes.
+# Without them, the shim starts an interactive PowerShell instead.
+$packageFolder = Split-Path -Parent $MyInvocation.MyCommand.Definition
+Install-BinFile -Name shaka-lab-windows-update `
+    -Path "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe" `
+    -Command "`"-NoProfile -ExecutionPolicy Bypass -File $packageFolder\install-windows-updates.ps1`""
 
+
+echo "`nInstalling all Windows and driver updates now...`n"
 # Try to install updates, but don't fail this package installation if Windows
 # Update fails.  That is out of our control.
 try {
-  # NOTE: Needs admin rights
-  Install-WindowsUpdate -Confirm:$false
+  # This script runs the updates as SYSTEM in a scheduled task, which also
+  # works over SSH.  Running it in a separate process also avoids a conflict
+  # inside Chocolatey scripts, where chocolatey-windowsupdate.extension (also
+  # present on lab machines) defines its own Install-WindowsUpdate.
+  & "$packageFolder\install-windows-updates.ps1"
 } catch {
   # Print the caught exception as an error.
   # -ErrorAction 'Continue' changes Write-Error's default behavior of
