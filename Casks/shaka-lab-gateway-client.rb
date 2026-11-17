@@ -26,15 +26,12 @@ cask "shaka-lab-gateway-client" do
   # this way.  Instead, our tap repo includes the sources.  To satisfy
   # Homebrew, give a URL that never changes and returns no data.
   url "http://www.gstatic.com/generate_204"
-  version "20261116.190617"
+  version "20261117.043656"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
 
   # Tell homebrew that we won't "install" anything.  We do, just not using the
   # primitives for Casks, which are oriented around app bundles.
   stage_only true
-
-  # Signal that this package does not need upgrading through "brew upgrade".
-  auto_updates true
 
   # The path from the Cask definition to the full shaka-lab source.
   # We install files from there.
@@ -56,4 +53,21 @@ cask "shaka-lab-gateway-client" do
           sudo: true, print_stdout: true
     end
   end
+
+  # Leaving the domain asks for the Active Directory Administrator password.
+  # Upgrades uninstall the old version first, so a plain uninstall leaves this
+  # machine bound, and only "brew uninstall --zap" leaves the domain.  By then,
+  # the uninstall above has removed our files, so this can't run a script from
+  # /opt/shaka-lab-gateway-client.
+  zap script: {
+    executable: "/bin/bash",
+    args:       [
+      "-c",
+      "domain=$(/usr/sbin/dsconfigad -show | awk '/Active Directory Domain/{print $NF}'); " \
+      "if [[ \"$domain\" == lab.shaka ]]; then " \
+      "/usr/sbin/dsconfigad -remove -u Administrator; " \
+      "fi",
+    ],
+    sudo:       true,
+  }
 end

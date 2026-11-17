@@ -32,12 +32,9 @@ cask "shaka-lab-recommended-settings" do
 
   # This is the version of shaka-lab-recommended-settings itself, not the
   # kcpassword source above.
-  version "20261116.190617"
+  version "20261117.043656"
 
   binary "kcpassword-1.1.0/kcpassword"
-
-  # Signal that this package does not need upgrading through "brew upgrade".
-  auto_updates true
 
   # The path from the Cask definition to the full shaka-lab source.
   source_root = "#{__dir__}/../shaka-lab-source"
