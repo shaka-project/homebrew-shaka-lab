@@ -32,7 +32,7 @@ cask "shaka-lab-recommended-settings" do
 
   # This is the version of shaka-lab-recommended-settings itself, not the
   # kcpassword source above.
-  version "20261117.043656"
+  version "20261118.170840"
 
   binary "kcpassword-1.1.0/kcpassword"
 
@@ -53,10 +53,15 @@ cask "shaka-lab-recommended-settings" do
   end
 
   # Most settings stay after uninstalling, but remove the ssh client config,
-  # which is only meant for lab machines.
+  # which is only meant for lab machines, and the shaka-lab-update-os command.
   uninstall_preflight_steps do
     run "/bin/rm",
-        args: ["-f", "/etc/ssh/ssh_config.d/200-shaka-lab-recommended-settings.conf"],
+        args: [
+          "-rf",
+          "/etc/ssh/ssh_config.d/200-shaka-lab-recommended-settings.conf",
+          "/opt/shaka-lab-recommended-settings",
+          "/etc/paths.d/shaka-lab-recommended-settings",
+        ],
         sudo: true
   end
 end
