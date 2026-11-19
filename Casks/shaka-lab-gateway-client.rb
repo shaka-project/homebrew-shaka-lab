@@ -26,7 +26,7 @@ cask "shaka-lab-gateway-client" do
   # this way.  Instead, our tap repo includes the sources.  To satisfy
   # Homebrew, give a URL that never changes and returns no data.
   url "http://www.gstatic.com/generate_204"
-  version "20261118.182009"
+  version "20261119.174815"
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
 
   # Tell homebrew that we won't "install" anything.  We do, just not using the
